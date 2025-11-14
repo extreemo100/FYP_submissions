@@ -1,28 +1,16 @@
-# Student Assignments Repository
+# React + Vite
 
-Welcome to the class assignment repository!   
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🧭 How to Submit
-You can submit your assignments in **two ways**:
+Currently, two official plugins are available:
 
-### Option 1: Upload Directly
-1. Navigate to your folder under `students/yourname/weekX/`
-2. Click **Add file → Upload files**
-3. Commit the changes with a short message (e.g., "Week 1 submission")
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-### Option 2: Pull Request (Recommended)
-1. Fork this repository
-2. Add your work in your folder (e.g., `students/student1/week1/`)
-3. Commit and push your changes
-4. Create a Pull Request to the main repository
+## React Compiler
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 📚 Folder Structure
+## Expanding the ESLint configuration
 
-```
-
-students/
-  ibrahim/     → ibrahims submissions
-  areeba/     →  areebas submissions
-```
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
