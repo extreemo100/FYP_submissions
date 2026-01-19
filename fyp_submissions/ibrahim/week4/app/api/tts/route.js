@@ -1,35 +1,41 @@
 import { NextResponse } from 'next/server'
-import { Session, TTSRequest } from 'fish-audio-sdk'
-
-const fish_session = new Session(process.env.FISH_AUDIO_API_KEY)
-const fish_model_id = process.env.RICK_MODEL_ID
 
 export async function POST(request) {
   try {
     const { text } = await request.json()
 
-    const ttsRequest = new TTSRequest({
-      text: text,
-      reference_id: fish_model_id
+    // Use Fish Audio REST API directly
+    const response = await fetch('https://api.fish.audio/v1/tts', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.FISH_AUDIO_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: text,
+        reference_id: process.env.RICK_MODEL_ID,
+        format: 'mp3',
+        latency: 'balanced'
+      })
     })
 
-    const chunks = []
-    for await (const chunk of fish_session.tts(ttsRequest)) {
-      chunks.push(chunk)
+    if (!response.ok) {
+      throw new Error(`Fish Audio API error: ${response.status}`)
     }
 
-    const audioBuffer = Buffer.concat(chunks)
+    // Get the audio buffer
+    const audioBuffer = await response.arrayBuffer()
 
     return new NextResponse(audioBuffer, {
       headers: {
         'Content-Type': 'audio/mpeg',
-        'Content-Length': audioBuffer.length.toString(),
+        'Content-Length': audioBuffer.byteLength.toString(),
       },
     })
   } catch (error) {
     console.error('TTS error:', error)
     return NextResponse.json(
-      { error: 'Failed to generate audio' },
+      { error: 'Failed to generate audio: ' + error.message },
       { status: 500 }
     )
   }
